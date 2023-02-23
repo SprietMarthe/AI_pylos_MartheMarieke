@@ -20,7 +20,7 @@ import java.util.Random;
  */
 public class StudentPlayerRandomFit extends PylosPlayer{
 
-    Random random = new Random(1);
+    Random random = new Random(1);      // anders ipv random 'getRandom' gebruiken
 
     @Override
     public void doMove(PylosGameIF game, PylosBoard board) {
@@ -74,12 +74,13 @@ public class StudentPlayerRandomFit extends PylosPlayer{
 
     // get random sphere that can be removed
     private PylosSphere getSphereToBeRemoved(PylosBoard board) {
-        ArrayList<PylosLocation> allRemovableLocations = new ArrayList<>();
-        for (PylosLocation bl : board.getLocations()) {
-            if (!bl.isUsable() && !bl.hasAbove() && bl.getSphere() != null && bl.getSphere().PLAYER_COLOR == this.PLAYER_COLOR) {
-                allRemovableLocations.add(bl);
+        ArrayList<PylosSphere> allRemovableLocations = new ArrayList<>();
+        for (PylosSphere sphere : board.getSpheres(this)) {
+            if (sphere.canRemove()) {
+                allRemovableLocations.add(sphere);
             }
         }
-        return allRemovableLocations.size() == 1 ? allRemovableLocations.get(0).getSphere() : allRemovableLocations.get(getRandom().nextInt(allRemovableLocations.size() - 1)).getSphere();
+        return allRemovableLocations.size() == 1 ? allRemovableLocations.get(0) : allRemovableLocations.get(random.nextInt(allRemovableLocations.size() - 1));
     }
+
 }
