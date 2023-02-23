@@ -7,6 +7,8 @@ import be.kuleuven.pylos.game.PylosSphere;
 import be.kuleuven.pylos.player.PylosPlayer;
 
 import java.util.ArrayList;
+import java.util.Random;
+
 /*
         Action klasse: sphere, color, from, to (Location), children, scores
 
@@ -35,13 +37,28 @@ public class StudentPlayerRandomFit extends PylosPlayer{
 
     @Override
     public void doRemoveOrPass(PylosGameIF game, PylosBoard board) {
-		/* always pass */
-        game.pass();
+
+        // Search for removables
+        ArrayList<PylosSphere> removableSpheres = new ArrayList<>();
+        for (PylosSphere ps : board.getSpheres(this)) {
+            if (!ps.isReserve() && !ps.getLocation().hasAbove()) {
+                removableSpheres.add(ps);
+            }
+        }
+
+        // Random decision between remove if possible and pass
+        if (getRandomBoolean() && removableSpheres.size() > 0) {
+            game.removeSphere(removableSpheres.get(0));
+        } else game.pass();
     }
 
 
 
 
+    private boolean getRandomBoolean() {
+        Random random = new Random();
+        return random.nextBoolean();
+    }
 
     // get random feasible location
     private PylosLocation getRandomFeasibleLocation(PylosBoard board) {
