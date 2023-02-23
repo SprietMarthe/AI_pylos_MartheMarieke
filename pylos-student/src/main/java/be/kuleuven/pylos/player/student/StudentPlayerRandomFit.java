@@ -27,10 +27,8 @@ public class StudentPlayerRandomFit extends PylosPlayer{
 		/* add a reserve sphere to a feasible random location */
         PylosSphere reserveSphere = board.getReserve(this);
         PylosLocation randomLocation = getRandomFeasibleLocation(board);
-        //board.add(reserveSphere, randomLocation);
         game.moveSphere(reserveSphere, randomLocation);
     }
-
 
     @Override
     public void doRemove(PylosGameIF game, PylosBoard board) {
@@ -84,12 +82,4 @@ public class StudentPlayerRandomFit extends PylosPlayer{
         }
         return allRemovableLocations.size() == 1 ? allRemovableLocations.get(0).getSphere() : allRemovableLocations.get(getRandom().nextInt(allRemovableLocations.size() - 1)).getSphere();
     }
-
-
-
-
-
-
-
-
 }
