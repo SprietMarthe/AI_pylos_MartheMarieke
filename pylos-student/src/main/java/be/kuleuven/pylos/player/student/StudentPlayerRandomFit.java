@@ -9,12 +9,6 @@ import be.kuleuven.pylos.player.PylosPlayer;
 import java.util.ArrayList;
 import java.util.Random;
 
-/*
-        Action klasse: sphere, color, from, to (Location), children, scores
-
-        Gebruik PylosGameIF om functies te vinden
-
-*/
 /**
  * Created by Ine on 5/05/2015.
  */

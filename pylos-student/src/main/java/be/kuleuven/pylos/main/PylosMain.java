@@ -72,3 +72,10 @@ public class PylosMain {
 	}
 
 }
+
+/*
+        Action klasse: sphere, color, from, to (Location), children, scores
+
+        Gebruik PylosGameIF om functies te vinden
+
+*/
