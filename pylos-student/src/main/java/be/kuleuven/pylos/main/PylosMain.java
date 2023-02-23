@@ -14,6 +14,10 @@ import be.kuleuven.pylos.player.student.StudentPlayerRandomFit;
 
 import java.util.Random;
 
+/**
+ * Update started on 23/2/2023 by Marieke Beke & Marthe Spriet
+ */
+
 public class PylosMain {
 
 	public PylosMain() {
@@ -52,8 +56,7 @@ public class PylosMain {
 	}
 
 	public void startBattle() {
-		// StudentPlayerRandomFit
-		// PylosPlayerRandomFit
+
 		PylosPlayer playerLight = new StudentPlayerRandomFit();
 		PylosPlayer playerDark = new PylosPlayerRandomFit();
 		Battle.play(playerLight, playerDark, 100);
@@ -63,8 +66,8 @@ public class PylosMain {
 
 		/* !!! vm argument !!! -ea */
 
-		new PylosMain().startSingleGame();
-//		new PylosMain().startBattle();
+//		new PylosMain().startSingleGame();
+		new PylosMain().startBattle();
 
 	}
 

@@ -60,7 +60,7 @@ public class StudentPlayerRandomFit extends PylosPlayer{
     private PylosSphere getSphereToBeRemoved(PylosBoard board) {
         ArrayList<PylosLocation> allRemovableLocations = new ArrayList<>();
         for (PylosLocation bl : board.getLocations()) {
-            if (!bl.isUsable() && bl.getSphere().PLAYER_COLOR == this.PLAYER_COLOR) {
+            if (!bl.isUsable() && !bl.hasAbove() && bl.getSphere() != null && bl.getSphere().PLAYER_COLOR == this.PLAYER_COLOR) {
                 allRemovableLocations.add(bl);
             }
         }
