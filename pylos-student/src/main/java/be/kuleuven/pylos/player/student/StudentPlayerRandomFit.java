@@ -30,7 +30,8 @@ public class StudentPlayerRandomFit extends PylosPlayer{
     @Override
     public void doRemove(PylosGameIF game, PylosBoard board) {
 		/* removeSphere a random sphere */
-
+        PylosSphere sphereToBeRemove = getSphereToBeRemoved(board);
+        board.remove(sphereToBeRemove);
     }
 
     @Override
@@ -54,7 +55,16 @@ public class StudentPlayerRandomFit extends PylosPlayer{
         return allPossibleLocations.size() == 1 ? allPossibleLocations.get(0) : allPossibleLocations.get(getRandom().nextInt(allPossibleLocations.size() - 1));
     }
 
-
+    // get random sphere that can be removed
+    private PylosSphere getSphereToBeRemoved(PylosBoard board) {
+        ArrayList<PylosLocation> allRemovableLocations = new ArrayList<>();
+        for (PylosLocation bl : board.getLocations()) {
+            if (!bl.isUsable() && bl.getSphere().PLAYER_COLOR == this.PLAYER_COLOR) {
+                allRemovableLocations.add(bl);
+            }
+        }
+        return allRemovableLocations.size() == 1 ? allRemovableLocations.get(0).getSphere() : allRemovableLocations.get(getRandom().nextInt(allRemovableLocations.size() - 1)).getSphere();
+    }
 
 
 
