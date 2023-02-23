@@ -20,6 +20,8 @@ import java.util.Random;
  */
 public class StudentPlayerRandomFit extends PylosPlayer{
 
+    Random random = new Random(1);
+
     @Override
     public void doMove(PylosGameIF game, PylosBoard board) {
 		/* add a reserve sphere to a feasible random location */
@@ -48,7 +50,7 @@ public class StudentPlayerRandomFit extends PylosPlayer{
             }
         }
 
-        // Random decision between remove if possible and pass
+        // Random decision between remove (if possible) and pass
         if (getRandomBoolean() && removableSpheres.size() > 0) {
             game.removeSphere(removableSpheres.get(0));
         } else game.pass();
@@ -58,7 +60,6 @@ public class StudentPlayerRandomFit extends PylosPlayer{
 
 
     private boolean getRandomBoolean() {
-        Random random = new Random();
         return random.nextBoolean();
     }
 
@@ -70,7 +71,7 @@ public class StudentPlayerRandomFit extends PylosPlayer{
                 allPossibleLocations.add(bl);
             }
         }
-        return allPossibleLocations.size() == 1 ? allPossibleLocations.get(0) : allPossibleLocations.get(getRandom().nextInt(allPossibleLocations.size() - 1));
+        return allPossibleLocations.size() == 1 ? allPossibleLocations.get(0) : allPossibleLocations.get(random.nextInt(allPossibleLocations.size() - 1));
     }
 
     // get random sphere that can be removed
