@@ -105,4 +105,13 @@ ev
 		zien waar cpu tijd spendeert
 		gaan naar visualVM
 			> Sampler > Hot spots ( per methode )
+
+	2 methoden: minimax voor speler ligth en dan ook voor speler dark
+
+
+
+	Hoe via AI:
+		NN definiëren + evaluatie + parameters
+		door neuraal netwerk sturen + trainen
+		nu niet self learning
 */

@@ -20,6 +20,14 @@ public class StudentPlayer extends PylosPlayer {
 
 		/* game methods
 			* game.moveSphere(myReserveSphere, allLocations[0]); */
+
+		// Hier die tree search functie uitvoeren
+		// Nadenken over die evaluatiefunctie
+
+		PylosSphere reserveSphere = board.getReserve(this);
+		PylosLocation randomLocation = getRandomFeasibleLocation(board);
+		game.moveSphere(reserveSphere, randomLocation);
+
 	}
 
 	@Override

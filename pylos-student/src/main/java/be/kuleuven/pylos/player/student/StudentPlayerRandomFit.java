@@ -9,12 +9,18 @@ import be.kuleuven.pylos.player.PylosPlayer;
 import java.util.ArrayList;
 import java.util.Random;
 
+/*
+        Action klasse: sphere, color, from, to (Location), children, scores
+
+        Gebruik PylosGameIF om functies te vinden
+
+*/
 /**
  * Created by Ine on 5/05/2015.
  */
 public class StudentPlayerRandomFit extends PylosPlayer{
 
-    Random random = new Random(1);      // anders ipv random 'getRandom' gebruiken
+    Random random = new Random(1);
 
     @Override
     public void doMove(PylosGameIF game, PylosBoard board) {
@@ -76,5 +82,4 @@ public class StudentPlayerRandomFit extends PylosPlayer{
         }
         return allRemovableLocations.size() == 1 ? allRemovableLocations.get(0) : allRemovableLocations.get(random.nextInt(allRemovableLocations.size() - 1));
     }
-
 }
