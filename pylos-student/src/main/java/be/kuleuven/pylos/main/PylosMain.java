@@ -9,6 +9,7 @@ import be.kuleuven.pylos.player.PylosPlayerObserver;
 import be.kuleuven.pylos.player.codes.PylosPlayerBestFit;
 import be.kuleuven.pylos.player.codes.PylosPlayerMiniMax;
 import be.kuleuven.pylos.player.codes.PylosPlayerRandomFit;
+import be.kuleuven.pylos.player.student.StudentPlayer;
 import be.kuleuven.pylos.player.student.StudentPlayerBestFit;
 import be.kuleuven.pylos.player.student.StudentPlayerRandomFit;
 
@@ -57,8 +58,8 @@ public class PylosMain {
 
 	public void startBattle() {
 
-		PylosPlayer playerLight = new StudentPlayerRandomFit();
-		PylosPlayer playerDark = new PylosPlayerRandomFit();
+		PylosPlayer playerLight = new StudentPlayer();
+		PylosPlayer playerDark = new PylosPlayerBestFit();
 		Battle.play(playerLight, playerDark, 100);
 	}
 
@@ -114,4 +115,7 @@ ev
 		NN definiëren + evaluatie + parameters
 		door neuraal netwerk sturen + trainen
 		nu niet self learning
+
+
+	Lijst met alle mogelijke acties en deze steeds opvragen voor simulatie
 */

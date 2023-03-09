@@ -12,14 +12,16 @@ import java.util.ArrayList;
 
 public class Action {
     private PylosSphere sphere;
+    private ActionType actionType;
     private PylosPlayerColor color;
     private PylosLocation from, to;
     private int scores;
     private boolean hasScore;
     private ArrayList<Action> children;
 
-    public Action(PylosSphere s, PylosPlayerColor c, PylosLocation f, PylosLocation t){
+    public Action(PylosSphere s, ActionType a, PylosPlayerColor c, PylosLocation f, PylosLocation t){
         sphere = s;
+        actionType = a;
         color = c;
         from = f;
         to = t;
