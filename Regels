@@ -11,3 +11,13 @@
 3) Keuzes
     Als er kans is voor de tegenspeler om een vierkant te maken, dit liever niet
     Liever vierkant maken zodat we een bal kunnen terug nemen
+
+    als er een vierkant kan gemaakt worden:
+        liever onze bal op een vierkant zetten met veel (>2) ballen van de tegenspeler of van ons eigen
+
+    bij keuze voor ballen weg te nemen:
+        liever ballen die op een lager niveau liggen
+
+
+
+4) Evaluatie functie

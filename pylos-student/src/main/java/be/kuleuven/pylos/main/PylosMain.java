@@ -78,4 +78,31 @@ public class PylosMain {
 
         Gebruik PylosGameIF om functies te vinden
 
+
+
+        9/3
+        Ongeveer: 1 seconde per game
+        Na simulatie moet je de staat weer herstellen
+        	sim oproepen in doMove
+
+
+        Klasse action, action type (add, remove first/second, move)
+        Elke action kan zijn eigen ook reversen
+        monte carlo tree search
+
+        Verschil met andere spelers: hoe evalueer je bord
+
+
+ev
+	1 voor bord -> hoe goed voor u
+	Door simulatie
+
+
+	bestFit: >85%
+	MinMax: >50%
+
+	nuttig: profiler
+		zien waar cpu tijd spendeert
+		gaan naar visualVM
+			> Sampler > Hot spots ( per methode )
 */
