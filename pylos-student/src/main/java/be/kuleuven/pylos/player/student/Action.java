@@ -28,5 +28,56 @@ public class Action {
         children = new ArrayList<>();
     }
 
+    public Action(PylosPlayerColor c) {
+        color = c;
+    }
 
+    public void setScores(int score) {
+        scores = score;
+        hasScore = true;
+    }
+
+    public PylosSphere getSphere() {
+        return sphere;
+    }
+
+    public void setSphere(PylosSphere sphere) {
+        this.sphere = sphere;
+    }
+
+    public PylosPlayerColor getColor() {
+        return color;
+    }
+
+    public void setColor(PylosPlayerColor color) {
+        this.color = color;
+    }
+
+    public PylosLocation getFrom() {
+        return from;
+    }
+
+    public void setFrom(PylosLocation from) {
+        this.from = from;
+    }
+
+    public PylosLocation getTo() {
+        return to;
+    }
+
+    public void setTo(PylosLocation to) {
+        this.to = to;
+    }
+
+    public int getScores() {
+        return scores;
+    }
+
+    public boolean isHasScore() {
+        return hasScore;
+    }
+
+    public void setHasScore(boolean hasScore) {
+        this.hasScore = hasScore;
+    }
 }
