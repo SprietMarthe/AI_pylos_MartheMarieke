@@ -34,6 +34,13 @@ public class Action {
         color = c;
     }
 
+    public Action(PylosSphere s, PylosPlayerColor c, PylosLocation f, PylosLocation t) {
+        sphere = s;
+        color = c;
+        from = f;
+        to = t;
+    }
+
     public void setScores(int score) {
         scores = score;
         hasScore = true;
