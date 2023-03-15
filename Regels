@@ -23,3 +23,14 @@
 4) Evaluatie functie op basis van
     vrije eigen spheres
     vrije andere spheres
+
+
+
+5) Functies
+    PylosSquare ->
+        getInSquare(PylosPlayer player) of getInSquare(PylosPlayerColor color)
+        List<PylosLocation> getBelow()/getAbove()/getSquares()
+    PylosLocation ->
+        getMaxInSquare(PylosPlayer player)
+        getFilledSquare(PylosPlayer player)
+        ...

@@ -27,6 +27,8 @@ public class StudentPlayer extends PylosPlayer {
 		// Hier die tree search functie uitvoeren
 		// Nadenken over die evaluatiefunctie
 
+
+
 		PylosSphere reserveSphere = board.getReserve(this);
 		PylosLocation randomLocation = getRandomFeasibleLocation(board);
 		game.moveSphere(reserveSphere, randomLocation);
@@ -89,6 +91,7 @@ public class StudentPlayer extends PylosPlayer {
 	private boolean getRandomBoolean() {
 		return random.nextBoolean();
 	}
+
 
 
 }

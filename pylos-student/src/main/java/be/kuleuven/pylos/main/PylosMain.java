@@ -10,6 +10,7 @@ import be.kuleuven.pylos.player.codes.PylosPlayerBestFit;
 import be.kuleuven.pylos.player.codes.PylosPlayerMiniMax;
 import be.kuleuven.pylos.player.codes.PylosPlayerRandomFit;
 import be.kuleuven.pylos.player.student.StudentPlayer2;
+import be.kuleuven.pylos.player.student.StudentPlayer;
 import be.kuleuven.pylos.player.student.StudentPlayerBestFit;
 import be.kuleuven.pylos.player.student.StudentPlayerRandomFit;
 
@@ -116,4 +117,7 @@ ev
 		NN definiëren + evaluatie + parameters
 		door neuraal netwerk sturen + trainen
 		nu niet self learning
+
+
+	Lijst met alle mogelijke acties en deze steeds opvragen voor simulatie
 */
