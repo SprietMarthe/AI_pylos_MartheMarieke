@@ -6,11 +6,11 @@ import be.kuleuven.pylos.player.PylosPlayer;
 import java.util.ArrayList;
 import java.util.Random;
 
-// DONE : adding the paths of adding a reserve sphere to all possible locations
-// DONE : adding the paths of moving to all possible higher squares in case of move
+
 // TODO : create the children for remove first
 // TODO : create the children for remove second
 // TODO : construct evaluation function
+// TODO : extra --> alfa beta pruning
 
 public class StudentPlayer2 extends PylosPlayer {
 
