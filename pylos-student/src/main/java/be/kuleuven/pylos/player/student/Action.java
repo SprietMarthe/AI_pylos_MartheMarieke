@@ -30,20 +30,8 @@ public class Action {
         children = new ArrayList<>();
     }
 
-    public Action(PylosPlayerColor c) {
-        color = c;
-    }
-
-    public Action(PylosSphere s, PylosPlayerColor c, PylosLocation f, PylosLocation t) {
-        sphere = s;
-        color = c;
-        from = f;
-        to = t;
-    }
-
-    public void setScores(int score) {
-        scores = score;
-        hasScore = true;
+    public Action() {
+        children = new ArrayList<>();
     }
 
     public PylosSphere getSphere() {
@@ -53,6 +41,10 @@ public class Action {
     public void setSphere(PylosSphere sphere) {
         this.sphere = sphere;
     }
+
+    public ActionType getActionType() { return actionType; }
+
+    public void setActionType(ActionType actionType) { this.actionType = actionType; }
 
     public PylosPlayerColor getColor() {
         return color;
@@ -82,11 +74,22 @@ public class Action {
         return scores;
     }
 
+    public void setScores(int score) {
+        scores = score;
+        hasScore = true;
+    }
+
     public boolean isHasScore() {
         return hasScore;
     }
 
     public void setHasScore(boolean hasScore) {
         this.hasScore = hasScore;
+    }
+
+    public ArrayList<Action> getChildren() { return children; }
+
+    public void addChild(Action action) {
+        children.add(action);
     }
 }
