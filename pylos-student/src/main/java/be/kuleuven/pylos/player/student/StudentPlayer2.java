@@ -7,15 +7,13 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
-// TODO : create the children for remove first
-// TODO : create the children for remove second
 // TODO : construct evaluation function
 // TODO : extra --> alfa beta pruning
 
 public class StudentPlayer2 extends PylosPlayer {
 
     Random random = new Random(1);
-    int maxDepth = 3;
+    int maxDepth = 5;
 
     @Override
     public void doMove(PylosGameIF game, PylosBoard board) {
@@ -66,11 +64,13 @@ public class StudentPlayer2 extends PylosPlayer {
     }
 
 
+
     /* privates --------------------------------------------------------------------------------------------- */
 
 
      // Minimax recursive function
     private Action minimax(PylosGameState state, PylosPlayerColor color, PylosBoard board, int depth, Action last) {
+
         PylosGameSimulator pylosGameSimulator = new PylosGameSimulator(state, color, board);
 
         // stop condition
@@ -79,9 +79,10 @@ public class StudentPlayer2 extends PylosPlayer {
             return last;
         }
 
+        // generate all the possible children actions of last action
         giveLastActionChildren(state, color, board, last);
 
-        // Maximize if color is color of this player
+        // maximize if color is color of this player
         if (color == this.PLAYER_COLOR) {
             int bestValue = Integer.MIN_VALUE;
             Action currentMaxAction = null;
@@ -102,7 +103,7 @@ public class StudentPlayer2 extends PylosPlayer {
             return currentMaxAction;
         }
 
-        // Minimize if color is color of other player
+        // minimize if color is color of other player
         else {
             int bestValue = Integer.MAX_VALUE;
             Action currentMinAction = null;
@@ -124,51 +125,61 @@ public class StudentPlayer2 extends PylosPlayer {
         }
     }
 
-
+    // Generate all the possible children actions of last action
     private void giveLastActionChildren(PylosGameState state, PylosPlayerColor color, PylosBoard board, Action action) {
 
-        // Add all the children of last action in case of MOVE
-        if (state == PylosGameState.MOVE) {
+        switch (state) {
+            case MOVE:
+                // possible top square places to move to
+                ArrayList<PylosLocation> allUsableTopLocations = getUsableTopLocations(board);
 
-            // Possible top square places to move to
-            ArrayList<PylosLocation> allUsableTopLocations = getUsableTopLocations(board);
-
-            // All paths of board spheres to a higher square
-            for (PylosLocation to : allUsableTopLocations) {
-                for (PylosSphere sphere : board.getSpheres(color)) {
-                    if (!sphere.isReserve() && sphere.canMoveTo(to)) {
-                        PylosLocation from = sphere.getLocation();
-                        Action child = new Action(sphere, ActionType.MOVE, color, from, to);
-                        action.addChild(child);
+                // all paths of board spheres to a higher square
+                for (PylosLocation to : allUsableTopLocations) {
+                    for (PylosSphere sphere : board.getSpheres(color)) {
+                        if (!sphere.isReserve() && sphere.canMoveTo(to)) {
+                            PylosLocation from = sphere.getLocation();
+                            Action child = new Action(sphere, ActionType.MOVE, color, from, to);
+                            action.addChild(child);
+                        }
                     }
                 }
-            }
 
+                // possible free places to add to
+                ArrayList<PylosLocation> allUsableLocations = getUsableLocations(board);
 
-            // Possible free places to move to
-            ArrayList<PylosLocation> allUsableLocations = getUsableLocations(board);
+                // all paths of reserve spheres to the board
+                PylosSphere sphereToMove = board.getReserve(color);
+                for (PylosLocation to : allUsableLocations) {
+                    PylosLocation from = sphereToMove.getLocation();
+                    Action child = new Action(sphereToMove, ActionType.ADD, color, from, to);
+                    action.addChild(child);
+                }
 
-            // All paths of reserve spheres to the board
-            PylosSphere sphereToMove = board.getReserve(color);
-            for (PylosLocation to : allUsableLocations) {
-                PylosLocation from = sphereToMove.getLocation();
-                Action child = new Action(sphereToMove, ActionType.ADD, color, from, to);
-                action.addChild(child);
-            }
+                break;
 
-        }
+            case REMOVE_FIRST:
+/*                PylosSphere toRemove = getSphereToBeRemoved(board, color);
+                action.addChild(new Action(toRemove, ActionType.REMOVE_FIRST, color, toRemove.getLocation(), null));*/
 
-        // Add all the children of last action in case of REMOVE_FIRST
-        else if (state == PylosGameState.REMOVE_FIRST) {
-            PylosSphere toRemove = getSphereToBeRemoved(board, color);
-            action.addChild(new Action(toRemove, ActionType.REMOVE_FIRST, color, toRemove.getLocation(), null));
-            // TODO
-        }
+                // possible spheres of playercolor that can move to reserve
+                ArrayList<PylosSphere> allThatCanBeRemoved = getCanBeRemoved(board, color);
+                for (PylosSphere sphere : allThatCanBeRemoved) {
+                    Action child = new Action(sphere, ActionType.REMOVE_FIRST, color, sphere.getLocation(), null);
+                    action.addChild(child);
+                }
 
-        // Add all the children of last action in case of REMOVE_SECOND
-        else {
-            action.addChild(new Action(null, ActionType.PASS, color, null, null));
-            // TODO
+                break;
+
+            case REMOVE_SECOND:
+                action.addChild(new Action(null, ActionType.PASS, color, null, null));
+
+                // possible spheres of playercolor that can move to reserve
+                allThatCanBeRemoved = getCanBeRemoved(board, color);
+                for (PylosSphere sphere : allThatCanBeRemoved) {
+                    Action child = new Action(sphere, ActionType.REMOVE_SECOND, color, sphere.getLocation(), null);
+                    action.addChild(child);
+                }
+
         }
     }
 
@@ -256,6 +267,17 @@ public class StudentPlayer2 extends PylosPlayer {
         }
 
         return usableTopLocations;
+    }
+
+    // Get all spheres on the board of a color that can be removed to reserve
+    private ArrayList<PylosSphere> getCanBeRemoved(PylosBoard board, PylosPlayerColor color) {
+
+        ArrayList<PylosSphere> canBeRemoved = new ArrayList<>();
+        for (PylosSphere sphere : board.getSpheres(color)) {
+            if (sphere.canRemove()) canBeRemoved.add(sphere);
+        }
+
+        return canBeRemoved;
     }
 
 
