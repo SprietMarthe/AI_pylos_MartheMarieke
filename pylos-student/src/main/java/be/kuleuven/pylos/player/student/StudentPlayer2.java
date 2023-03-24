@@ -13,7 +13,7 @@ import java.util.Random;
 public class StudentPlayer2 extends PylosPlayer {
 
     Random random = new Random(1);
-    int maxDepth = 5;
+    int maxDepth = 4;
 
     @Override
     public void doMove(PylosGameIF game, PylosBoard board) {
@@ -75,7 +75,7 @@ public class StudentPlayer2 extends PylosPlayer {
 
         // stop condition
         if (depth == 0 || state == PylosGameState.COMPLETED) {
-            last.setScores(evaluateBoard(board));
+            last.setScores(evaluateBoard(board, color));
             return last;
         }
 
@@ -230,9 +230,21 @@ public class StudentPlayer2 extends PylosPlayer {
 
 
     // Evaluation function
-    private int evaluateBoard(PylosBoard board) {
+    private int evaluateBoard(PylosBoard board, PylosPlayerColor color) {
 
-        return 1;
+        // own reserve spheres
+        int score = board.getReservesSize(color) * 4;
+
+        // other reserve spheres
+        score -= (board.getReservesSize(color.other()) * 4);
+
+/*        // squares with three of own color and one free place
+        PylosSquare[] allSquares = board.getAllSquares();
+        for (PylosSquare square : allSquares) {
+            if (square.getInSquare(color) == 3 && square.getInSquare(color.other()) == 0) score++;
+        }*/
+
+        return score;
     }
 
 
