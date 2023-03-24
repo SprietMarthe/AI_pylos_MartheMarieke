@@ -4,7 +4,6 @@ import be.kuleuven.pylos.game.*;
 import be.kuleuven.pylos.player.PylosPlayer;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 
 // TODO : construct evaluation function
@@ -12,8 +11,7 @@ import java.util.Random;
 
 public class StudentPlayer2 extends PylosPlayer {
 
-    Random random = new Random(1);
-    int maxDepth = 4;
+    int maxDepth = 2;
 
     @Override
     public void doMove(PylosGameIF game, PylosBoard board) {
@@ -75,7 +73,7 @@ public class StudentPlayer2 extends PylosPlayer {
 
         // stop condition
         if (depth == 0 || state == PylosGameState.COMPLETED) {
-            last.setScores(evaluateBoard(board, color));
+            last.setScore(evaluateBoard(board, color));
             return last;
         }
 
@@ -92,8 +90,8 @@ public class StudentPlayer2 extends PylosPlayer {
                 doSimulation(pylosGameSimulator, a);
 
                 Action bestNext = minimax(pylosGameSimulator.getState(), pylosGameSimulator.getColor(), board, depth-1, a);
-                if (bestValue < bestNext.getScores()) {
-                    bestValue = bestNext.getScores();
+                if (bestValue < bestNext.getScore()) {
+                    bestValue = bestNext.getScore();
                     currentMaxAction = a;
                 }
 
@@ -113,8 +111,8 @@ public class StudentPlayer2 extends PylosPlayer {
                 doSimulation(pylosGameSimulator, a);
 
                 Action bestNext = minimax(pylosGameSimulator.getState(), pylosGameSimulator.getColor(), board, depth-1, a);
-                if (bestValue > bestNext.getScores()) {
-                    bestValue = bestNext.getScores();
+                if (bestValue > bestNext.getScore()) {
+                    bestValue = bestNext.getScore();
                     currentMinAction = a;
                 }
 
@@ -158,8 +156,6 @@ public class StudentPlayer2 extends PylosPlayer {
                 break;
 
             case REMOVE_FIRST:
-/*                PylosSphere toRemove = getSphereToBeRemoved(board, color);
-                action.addChild(new Action(toRemove, ActionType.REMOVE_FIRST, color, toRemove.getLocation(), null));*/
 
                 // possible spheres of playercolor that can move to reserve
                 ArrayList<PylosSphere> allThatCanBeRemoved = getCanBeRemoved(board, color);
@@ -171,6 +167,8 @@ public class StudentPlayer2 extends PylosPlayer {
                 break;
 
             case REMOVE_SECOND:
+
+                // action pass
                 action.addChild(new Action(null, ActionType.PASS, color, null, null));
 
                 // possible spheres of playercolor that can move to reserve
@@ -232,32 +230,44 @@ public class StudentPlayer2 extends PylosPlayer {
     // Evaluation function
     private int evaluateBoard(PylosBoard board, PylosPlayerColor color) {
 
+        int factorOwnReserveSpheres = 40;
+        int factorOtherReserveSpheres = 30;
+        int factorThreeOfOwnInSquare = 10;
+        int factorThreeOfOtherInSquare = 5;
+        int factorFourOfOwnInSquare = 60;
+        int factorBlockFourOfOther = 30;
+        int factorCompleteSquare = 20;
+        int factorTopIsOwnSphere = 100;
+        int factorTopIsOtherSphere = 100;
+
         // own reserve spheres
-        int score = board.getReservesSize(color) * 4;
+        int score = board.getReservesSize(color) * factorOwnReserveSpheres;
 
         // other reserve spheres
-        score -= (board.getReservesSize(color.other()) * 4);
+        score -= board.getReservesSize(color) * factorOtherReserveSpheres;
 
-/*        // squares with three of own color and one free place
+        // squares
         PylosSquare[] allSquares = board.getAllSquares();
         for (PylosSquare square : allSquares) {
-            if (square.getInSquare(color) == 3 && square.getInSquare(color.other()) == 0) score++;
-        }*/
+            if (square.getInSquare(color) == 4) score += factorFourOfOwnInSquare;
+            else if (square.getInSquare(color.other()) == 3 && square.getInSquare(color) == 1) score += factorBlockFourOfOther;
+            else if (square.getInSquare() == 4) score -= factorCompleteSquare;
+            else if (square.getInSquare(color) == 3 && square.getInSquare(color.other()) == 0) score += factorThreeOfOwnInSquare;
+            else if (square.getInSquare(color.other()) == 3 && square.getInSquare(color) == 0) score -= factorThreeOfOtherInSquare;
+        }
+
+        // top location is from color
+        PylosLocation[] locations = board.getLocations();
+        int size = locations.length;
+        if (locations[size-1].getSphere() != null) {
+            if (locations[size-1].getSphere().PLAYER_COLOR == color) score += factorTopIsOwnSphere;
+            else if (locations[size-1].getSphere().PLAYER_COLOR == color.other()) score -= factorTopIsOtherSphere;
+        }
+
 
         return score;
     }
 
-
-    // Get random sphere that can be removed
-    private PylosSphere getSphereToBeRemoved(PylosBoard board, PylosPlayerColor color) {
-        ArrayList<PylosSphere> allRemovableLocations = new ArrayList<>();
-        for (PylosSphere sphere : board.getSpheres(color)) {
-            if (sphere.canRemove()) {
-                allRemovableLocations.add(sphere);
-            }
-        }
-        return allRemovableLocations.size() == 1 ? allRemovableLocations.get(0) : allRemovableLocations.get(random.nextInt(allRemovableLocations.size() - 1));
-    }
 
     // Get all usable locations to move a sphere to
     private ArrayList<PylosLocation> getUsableLocations(PylosBoard board) {

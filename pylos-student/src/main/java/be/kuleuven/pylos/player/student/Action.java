@@ -15,7 +15,7 @@ public class Action {
     private ActionType actionType;
     private PylosPlayerColor color;
     private PylosLocation from, to;
-    private int scores;
+    private int score;
     private boolean hasScore;
     private ArrayList<Action> children;
 
@@ -25,7 +25,7 @@ public class Action {
         color = c;
         from = f;
         to = t;
-        scores = 0;
+        score = 0;
         hasScore = false;
         children = new ArrayList<>();
     }
@@ -70,12 +70,12 @@ public class Action {
         this.to = to;
     }
 
-    public int getScores() {
-        return scores;
+    public int getScore() {
+        return score;
     }
 
-    public void setScores(int score) {
-        scores = score;
+    public void setScore(int score) {
+        this.score = score;
         hasScore = true;
     }
 
