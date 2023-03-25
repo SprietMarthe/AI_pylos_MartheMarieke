@@ -9,11 +9,14 @@ import be.kuleuven.pylos.player.PylosPlayerObserver;
 import be.kuleuven.pylos.player.codes.PylosPlayerBestFit;
 import be.kuleuven.pylos.player.codes.PylosPlayerMiniMax;
 import be.kuleuven.pylos.player.codes.PylosPlayerRandomFit;
-import be.kuleuven.pylos.player.student.StudentPlayer2;
 import be.kuleuven.pylos.player.student.StudentPlayer;
 import be.kuleuven.pylos.player.student.StudentPlayerBestFit;
 import be.kuleuven.pylos.player.student.StudentPlayerRandomFit;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.SQLOutput;
+import java.time.LocalDateTime;
 import java.util.Random;
 
 /**
@@ -26,7 +29,7 @@ public class PylosMain {
 
 	}
 
-	public void startPerformanceBattles() {
+	public void startPerformanceBattles() throws IOException {
 		Random random = new Random(0);
 		PylosPlayer[] players = new PylosPlayer[]{new PylosPlayerBestFit(), new PylosPlayerMiniMax(2), new PylosPlayerMiniMax(5), new PylosPlayerMiniMax(8)};
 
@@ -47,9 +50,8 @@ public class PylosMain {
 
 		Random random = new Random(0);
 
-		PylosPlayer randomPlayerCodes = new PylosPlayerRandomFit();
-//		PylosPlayer randomPlayerCodes = new PylosPlayerMiniMax();
-		PylosPlayer randomPlayerStudent = new StudentPlayerRandomFit();
+		PylosPlayer randomPlayerCodes = new PylosPlayerMiniMax(3);
+		PylosPlayer randomPlayerStudent = new StudentPlayer();
 
 		PylosBoard pylosBoard = new PylosBoard();
 		PylosGame pylosGame = new PylosGame(pylosBoard, randomPlayerCodes, randomPlayerStudent, random, PylosGameObserver.CONSOLE_GAME_OBSERVER, PylosPlayerObserver.NONE);
@@ -57,24 +59,102 @@ public class PylosMain {
 		pylosGame.play();
 	}
 
-	public void startBattle() {
+	public void startBattle(boolean normal) throws IOException {
+		double startTime = System.currentTimeMillis();
+		if (!normal) {
+			String path = "Experiments\\Exp.txt";
+			FileWriter fw = new FileWriter(path, true);
 
-		PylosPlayer playerLight = new StudentPlayer2();
-//		PylosPlayer playerLight = new StudentPlayerRandomFit();
+			for (int i = 3; i < 4; i++) {
+				for (int j = 1; j < 4; j++) {
+					for (int k = 1; k < 3; k++) {
+						for (int l = 1; l < 4; l++) {
+							for (int m = 1; m < 4; m++) {
+								for (int n = 1; n < 4; n++) {
+									for (int o = 1; o < 3; o++) {
+										PylosPlayer playerLight = new StudentPlayer(i, k, l, m, n, o, j);
+										for (int s = 2; s < 4; s++) {
+											PylosPlayer playerDark = new PylosPlayerMiniMax(s);
+											double[] wins = Battle.play(playerLight, playerDark, 100);
 
-		PylosPlayer playerDark = new PylosPlayerBestFit();
-//		PylosPlayer playerDark = new PylosPlayerRandomFit();
-//		PylosPlayer playerDark = new PylosPlayerMiniMax(3);
+											String values = wins[0] + " " + wins[1] + " " + wins[2];
+											fw.write(i + " " + s
+													+ " " + k
+													+ " " + l
+													+ " " + m
+													+ " " + n
+													+ " " + o
+													+ " " + (double) j
+													+ " " + values
+													+ " " + "\n");
+										}
+										PylosPlayer playerDark = new PylosPlayerBestFit();
+										double[] wins = Battle.play(playerLight, playerDark, 100);
+										String values = wins[0] + " " + wins[1] + " " + wins[2];
+										fw.write(i + " " + "BestFit"
+													+ " " + k
+													+ " " + l
+													+ " " + m
+													+ " " + n
+													+ " " + o
+													+ " " + (double) j
+													+ " " + values
+													+ " " + "\n");
+									}
+								}
+							}
+						}
+					}
+//					int factorOwnReserveSpheres = 1;
+//					int factorThreeOfOwnInSquare = 1;
+//					int factorFourOfOwnInSquare = 1;
+//					int factorCompleteSquare = 1;
+//					int factorTopIsOwnSphere = 1;
+//					PylosPlayer playerLight = new StudentPlayer(maxDepth, factorOwnReserveSpheres, factorThreeOfOwnInSquare, factorFourOfOwnInSquare, factorCompleteSquare, factorTopIsOwnSphere, factorOwnAndOther);
+////		PylosPlayer playerLight = new StudentPlayerRandomFit();
+//					for (int s = 1; s < 6; s++) {
+//						PylosPlayer playerDark = new PylosPlayerMiniMax(s);
+////		PylosPlayer playerDark = new PylosPlayerRandomFit();
+////		PylosPlayer playerDark = new PylosPlayerMiniMax(3);
+////		PylosPlayer playerDark = new PylosPlayerBestFit();
+//						double[] wins = Battle.play(playerLight, playerDark, 100);
+//
+//						String values = wins[0] + " " + wins[1] + " " + wins[2];
+//						fw.write(maxDepth + " " + s
+//								+ " " + factorOwnReserveSpheres
+//								+ " " + factorThreeOfOwnInSquare
+//								+ " " + factorFourOfOwnInSquare
+//								+ " " + factorCompleteSquare
+//								+ " " + factorTopIsOwnSphere
+//								+ " " + factorOwnAndOther
+//								+ " " + values + " " + "\n");
+//					}
+				}
 
-		Battle.play(playerLight, playerDark, 100);
+			}
+			fw.close();
+		}
+		else{
+			PylosPlayer playerLight = new StudentPlayer();
+//			PylosPlayer playerLight = new StudentPlayerRandomFit();
+
+			PylosPlayer playerDark = new PylosPlayerMiniMax(2);
+//			PylosPlayer playerDark = new PylosPlayerRandomFit();
+//			PylosPlayer playerDark = new PylosPlayerMiniMax(3);
+//			PylosPlayer playerDark = new PylosPlayerBestFit();
+
+			Battle.play(playerLight, playerDark, 100);
+		}
+		double playTime = System.currentTimeMillis();
+		System.out.println("Time to run: " + (playTime - startTime)/1000);
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 
 		/* !!! vm argument !!! -ea */
 
 //		new PylosMain().startSingleGame();
-		new PylosMain().startBattle();
+		new PylosMain().startBattle(true);
 
 	}
 
