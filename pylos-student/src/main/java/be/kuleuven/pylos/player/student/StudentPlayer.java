@@ -14,7 +14,7 @@ public class StudentPlayer extends PylosPlayer {
 	int maxDepth = 2;
 	int factorOwnReserveSpheres = 2;
 	int factorThreeOfOwnInSquare = 2;
-	int factorFourOfOwnInSquare = 2;
+	int factorFourOfOwnInSquare = 1;
 	int factorCompleteSquare = 1;
 	int factorTopIsOwnSphere = 2;
 	double factorOwnAndOther = 3;
@@ -44,6 +44,7 @@ public class StudentPlayer extends PylosPlayer {
 		 * game.moveSphere(myReserveSphere, allLocations[0]); */
 
 		Action startAction = new Action();
+
 
 		Action bestMove =  minimax(game.getState(), this.PLAYER_COLOR, board, maxDepth, startAction, Integer.MIN_VALUE, Integer.MAX_VALUE);
 		game.moveSphere(bestMove.getSphere(), bestMove.getTo());
@@ -115,9 +116,16 @@ public class StudentPlayer extends PylosPlayer {
 //					if (currentMaxAction != null)
 //						return currentMaxAction;
 //					else
-						return a;
+					return a;
 				}
 				alfa = Math.max(alfa, bestNext.getScore());
+				if (beta <= alfa){
+					undoSimulation(pylosGameSimulator, a);
+//					if (currentMaxAction != null)
+//						return currentMaxAction;
+//					else
+					return a;
+				}
 				if (bestValue < bestNext.getScore()) {
 					bestValue = bestNext.getScore();
 					currentMaxAction = a;
@@ -144,9 +152,16 @@ public class StudentPlayer extends PylosPlayer {
 //					if (currentMinAction != null)
 //						return currentMinAction;
 //					else
-						return a;
+					return a;
 				}
 				beta = Math.min(beta, bestNext.getScore());
+				if (beta <= alfa){
+					undoSimulation(pylosGameSimulator, a);
+//					if (currentMaxAction != null)
+//						return currentMaxAction;
+//					else
+					return a;
+				}
 				if (bestValue > bestNext.getScore()) {
 					bestValue = bestNext.getScore();
 					currentMinAction = a;

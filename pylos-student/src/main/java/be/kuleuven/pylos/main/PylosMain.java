@@ -64,47 +64,40 @@ public class PylosMain {
 		if (!normal) {
 			String path = "Experiments\\Exp.txt";
 			FileWriter fw = new FileWriter(path, true);
+			int diepteStudent = 2;
+			int diepteCodes = 2;
+			double bestWin = 0;
+			String stringBestWin = "";
+			for (int j = 1; j < 4; j++) {
+				for (int k = 1; k < 3; k++) {
+					for (int l = 1; l < 4; l++) {
+						for (int m = 1; m < 4; m++) {
+							for (int n = 1; n < 4; n++) {
+								for (int o = 1; o < 3; o++) {
+									PylosPlayer playerLight = new StudentPlayer(diepteStudent, k, l, m, n, o, j);
+									PylosPlayer playerDark = new PylosPlayerMiniMax(diepteCodes);
+									double[] wins = Battle.play(playerLight, playerDark, 100);
 
-			for (int i = 3; i < 4; i++) {
-				for (int j = 1; j < 4; j++) {
-					for (int k = 1; k < 3; k++) {
-						for (int l = 1; l < 4; l++) {
-							for (int m = 1; m < 4; m++) {
-								for (int n = 1; n < 4; n++) {
-									for (int o = 1; o < 3; o++) {
-										PylosPlayer playerLight = new StudentPlayer(i, k, l, m, n, o, j);
-										for (int s = 2; s < 4; s++) {
-											PylosPlayer playerDark = new PylosPlayerMiniMax(s);
-											double[] wins = Battle.play(playerLight, playerDark, 100);
+									if (bestWin < wins[0]) {
+										bestWin = wins[0];
 
-											String values = wins[0] + " " + wins[1] + " " + wins[2];
-											fw.write(i + " " + s
-													+ " " + k
-													+ " " + l
-													+ " " + m
-													+ " " + n
-													+ " " + o
-													+ " " + (double) j
-													+ " " + values
-													+ " " + "\n");
-										}
-										PylosPlayer playerDark = new PylosPlayerBestFit();
-										double[] wins = Battle.play(playerLight, playerDark, 100);
 										String values = wins[0] + " " + wins[1] + " " + wins[2];
-										fw.write(i + " " + "BestFit"
-													+ " " + k
-													+ " " + l
-													+ " " + m
-													+ " " + n
-													+ " " + o
-													+ " " + (double) j
-													+ " " + values
-													+ " " + "\n");
+										stringBestWin = diepteStudent + " " + diepteCodes
+												+ " " + k
+												+ " " + l
+												+ " " + m
+												+ " " + n
+												+ " " + o
+												+ " " + (double) j
+												+ " " + values
+												+ " " + "\n";
 									}
 								}
 							}
 						}
 					}
+				}
+			}
 //					int factorOwnReserveSpheres = 1;
 //					int factorThreeOfOwnInSquare = 1;
 //					int factorFourOfOwnInSquare = 1;
@@ -129,9 +122,7 @@ public class PylosMain {
 //								+ " " + factorOwnAndOther
 //								+ " " + values + " " + "\n");
 //					}
-				}
-
-			}
+			fw.write(stringBestWin);
 			fw.close();
 		}
 		else{
