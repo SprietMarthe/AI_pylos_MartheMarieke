@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class StudentPlayer extends PylosPlayer {
 
-	int maxDepth = 3;
+	int maxDepth = 2;
 	int factorOwnReserveSpheres = 2;
 	int factorThreeOfOwnInSquare = 2;
 	int factorFourOfOwnInSquare = 2;
@@ -57,7 +57,7 @@ public class StudentPlayer extends PylosPlayer {
 
 		Action startAction = new Action();
 
-		Action bestMove =  minimax(game.getState(), this.PLAYER_COLOR, board, maxDepth, startAction, Integer.MAX_VALUE, Integer.MAX_VALUE);
+		Action bestMove =  minimax(game.getState(), this.PLAYER_COLOR, board, maxDepth, startAction, Integer.MIN_VALUE, Integer.MAX_VALUE);
 		PylosSphere sphereToBeRemoved = bestMove.getSphere();
 
 		game.removeSphere(sphereToBeRemoved);
@@ -71,7 +71,7 @@ public class StudentPlayer extends PylosPlayer {
 
 		Action startAction = new Action();
 
-		Action bestMove =  minimax(game.getState(), this.PLAYER_COLOR, board, maxDepth, startAction, Integer.MAX_VALUE, Integer.MAX_VALUE);
+		Action bestMove =  minimax(game.getState(), this.PLAYER_COLOR, board, maxDepth, startAction, Integer.MIN_VALUE, Integer.MAX_VALUE);
 		if (bestMove.getSphere() == null) game.pass();
 		else {
 			PylosSphere sphereToBeRemoved = bestMove.getSphere();
@@ -110,9 +110,12 @@ public class StudentPlayer extends PylosPlayer {
 				doSimulation(pylosGameSimulator, a);
 
 				Action bestNext = minimax(pylosGameSimulator.getState(), pylosGameSimulator.getColor(), board, depth-1, a, alfa, beta);
-				if (bestNext.getScore() > beta ) {
+				if (bestNext.getScore() > beta ) { // beta cutoff
 					undoSimulation(pylosGameSimulator, a);
-					return a; //β cutoff
+//					if (currentMaxAction != null)
+//						return currentMaxAction;
+//					else
+						return a;
 				}
 				alfa = Math.max(alfa, bestNext.getScore());
 				if (bestValue < bestNext.getScore()) {
@@ -136,9 +139,12 @@ public class StudentPlayer extends PylosPlayer {
 				doSimulation(pylosGameSimulator, a);
 
 				Action bestNext = minimax(pylosGameSimulator.getState(), pylosGameSimulator.getColor(), board, depth-1, a, alfa, beta);
-				if (bestNext.getScore() < alfa ) {
+				if (bestNext.getScore() < alfa ) { //alfa cutoff
 					undoSimulation(pylosGameSimulator, a);
-					return a; //alfa cutoff
+//					if (currentMinAction != null)
+//						return currentMinAction;
+//					else
+						return a;
 				}
 				beta = Math.min(beta, bestNext.getScore());
 				if (bestValue > bestNext.getScore()) {
