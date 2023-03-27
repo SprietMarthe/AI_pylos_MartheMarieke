@@ -22,6 +22,10 @@ public class StudentPlayer extends PylosPlayer {
 	public StudentPlayer() {
 	}
 
+	public StudentPlayer(int d) {
+		this.maxDepth = d;
+	}
+
 	public StudentPlayer(int maxDepth, int factorOwnReserveSpheres, int factorThreeOfOwnInSquare, int factorFourOfOwnInSquare, int factorCompleteSquare, int factorTopIsOwnSphere, double factorOwnAndOther) {
 		this.maxDepth = maxDepth;
 		this.factorOwnReserveSpheres = factorOwnReserveSpheres;
@@ -93,7 +97,7 @@ public class StudentPlayer extends PylosPlayer {
 
 		// stop condition
 		if (depth == 0 || state == PylosGameState.COMPLETED) {
-			last.setScore(evaluateBoard(board, color, last));
+			last.setScore(evaluateBoard(board, color));
 			return last;
 		}
 
@@ -176,7 +180,7 @@ public class StudentPlayer extends PylosPlayer {
 
 	// Generate all the possible children actions of last action
 	private void giveLastActionChildren(PylosGameState state, PylosPlayerColor color, PylosBoard board, Action action) {
-
+		action.setChildren(new ArrayList<>());
 		switch (state) {
 			case MOVE:
 				// possible top square places to move to
@@ -279,7 +283,7 @@ public class StudentPlayer extends PylosPlayer {
 
 
 	// Evaluation function
-	private int evaluateBoard(PylosBoard board, PylosPlayerColor color, Action last) {
+	private int evaluateBoard(PylosBoard board, PylosPlayerColor color) {
 
 		// own reserve spheres
 		int score = board.getReservesSize(color) * factorOwnReserveSpheres;

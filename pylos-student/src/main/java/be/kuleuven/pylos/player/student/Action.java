@@ -92,4 +92,8 @@ public class Action {
     public void addChild(Action action) {
         children.add(action);
     }
+
+    public void setChildren(ArrayList<Action> children) {
+        this.children = children;
+    }
 }

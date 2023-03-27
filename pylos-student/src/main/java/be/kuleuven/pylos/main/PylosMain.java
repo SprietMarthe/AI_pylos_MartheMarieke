@@ -10,6 +10,7 @@ import be.kuleuven.pylos.player.codes.PylosPlayerBestFit;
 import be.kuleuven.pylos.player.codes.PylosPlayerMiniMax;
 import be.kuleuven.pylos.player.codes.PylosPlayerRandomFit;
 import be.kuleuven.pylos.player.student.StudentPlayer;
+import be.kuleuven.pylos.player.student.StudentPlayer3;
 import be.kuleuven.pylos.player.student.StudentPlayerBestFit;
 import be.kuleuven.pylos.player.student.StudentPlayerRandomFit;
 
@@ -98,37 +99,14 @@ public class PylosMain {
 					}
 				}
 			}
-//					int factorOwnReserveSpheres = 1;
-//					int factorThreeOfOwnInSquare = 1;
-//					int factorFourOfOwnInSquare = 1;
-//					int factorCompleteSquare = 1;
-//					int factorTopIsOwnSphere = 1;
-//					PylosPlayer playerLight = new StudentPlayer(maxDepth, factorOwnReserveSpheres, factorThreeOfOwnInSquare, factorFourOfOwnInSquare, factorCompleteSquare, factorTopIsOwnSphere, factorOwnAndOther);
-////		PylosPlayer playerLight = new StudentPlayerRandomFit();
-//					for (int s = 1; s < 6; s++) {
-//						PylosPlayer playerDark = new PylosPlayerMiniMax(s);
-////		PylosPlayer playerDark = new PylosPlayerRandomFit();
-////		PylosPlayer playerDark = new PylosPlayerMiniMax(3);
-////		PylosPlayer playerDark = new PylosPlayerBestFit();
-//						double[] wins = Battle.play(playerLight, playerDark, 100);
-//
-//						String values = wins[0] + " " + wins[1] + " " + wins[2];
-//						fw.write(maxDepth + " " + s
-//								+ " " + factorOwnReserveSpheres
-//								+ " " + factorThreeOfOwnInSquare
-//								+ " " + factorFourOfOwnInSquare
-//								+ " " + factorCompleteSquare
-//								+ " " + factorTopIsOwnSphere
-//								+ " " + factorOwnAndOther
-//								+ " " + values + " " + "\n");
-//					}
 			fw.write(stringBestWin);
 			fw.close();
 		}
 		else{
-			PylosPlayer playerLight = new StudentPlayer();
+			PylosPlayer playerLight = new StudentPlayer3(2);
 //			PylosPlayer playerLight = new StudentPlayerRandomFit();
 
+//			PylosPlayer playerDark = new StudentPlayer3(3);
 			PylosPlayer playerDark = new PylosPlayerMiniMax(2);
 //			PylosPlayer playerDark = new PylosPlayerRandomFit();
 //			PylosPlayer playerDark = new PylosPlayerMiniMax(3);
@@ -196,3 +174,28 @@ ev
 
 	Lijst met alle mogelijke acties en deze steeds opvragen voor simulatie
 */
+/*
+Waarom Alfa-beta
+	The minimax
+algorithm is effective but impractical in practice. In an
+actual game, the algorithm cannot search deeper than
+two turns/layers ahead using minimax without incurring
+significant delays in game play. This is because it evaluates
+many subtrees that can be ignored. To optimize the look
+ahead search, we used alpha-beta pruning, which causes the
+algorithm to quit evaluating branches that result in better
+opponent scores since those branches have no effect on the
+final outcome. This brings down the run time significantly
+
+
+Beter:
+	Monte Carlo Tree Search (MCTS)
+
+
+
+Lerende speler:
+	Meest gebruikte taal: Python
+
+Neural Network opstarten
+	https://www.infoworld.com/article/3685569/how-to-build-a-neural-network-in-java.html
+ */

@@ -31,6 +31,13 @@ public class PlayerFactoryStudent extends PylosPlayerFactory {
 			}
 		});
 
+		add(new PylosPlayerType("Student - 3") {
+			@Override
+			public PylosPlayer create() {
+				return new StudentPlayer3();
+			}
+		});
+
 		add(new PylosPlayerType("Student - Random") {
 			@Override
 			public PylosPlayer create() {
