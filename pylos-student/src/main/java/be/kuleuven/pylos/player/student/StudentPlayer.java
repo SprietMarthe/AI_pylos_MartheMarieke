@@ -47,10 +47,10 @@ public class StudentPlayer extends PylosPlayer {
 		/* game methods
 		 * game.moveSphere(myReserveSphere, allLocations[0]); */
 
-		Action startAction = new Action();
+		Action1 startAction = new Action1();
 
 
-		Action bestMove =  minimax(game.getState(), this.PLAYER_COLOR, board, maxDepth, startAction, Integer.MIN_VALUE, Integer.MAX_VALUE);
+		Action1 bestMove =  minimax(game.getState(), this.PLAYER_COLOR, board, maxDepth, startAction, Integer.MIN_VALUE, Integer.MAX_VALUE);
 		game.moveSphere(bestMove.getSphere(), bestMove.getTo());
 
 	}
@@ -60,9 +60,9 @@ public class StudentPlayer extends PylosPlayer {
 		/* game methods
 		 * game.removeSphere(mySphere); */
 
-		Action startAction = new Action();
+		Action1 startAction = new Action1();
 
-		Action bestMove =  minimax(game.getState(), this.PLAYER_COLOR, board, maxDepth, startAction, Integer.MIN_VALUE, Integer.MAX_VALUE);
+		Action1 bestMove =  minimax(game.getState(), this.PLAYER_COLOR, board, maxDepth, startAction, Integer.MIN_VALUE, Integer.MAX_VALUE);
 		PylosSphere sphereToBeRemoved = bestMove.getSphere();
 
 		game.removeSphere(sphereToBeRemoved);
@@ -74,9 +74,9 @@ public class StudentPlayer extends PylosPlayer {
 		 * game.removeSphere(mySphere);
 		 * game.pass() */
 
-		Action startAction = new Action();
+		Action1 startAction = new Action1();
 
-		Action bestMove =  minimax(game.getState(), this.PLAYER_COLOR, board, maxDepth, startAction, Integer.MIN_VALUE, Integer.MAX_VALUE);
+		Action1 bestMove =  minimax(game.getState(), this.PLAYER_COLOR, board, maxDepth, startAction, Integer.MIN_VALUE, Integer.MAX_VALUE);
 		if (bestMove.getSphere() == null) game.pass();
 		else {
 			PylosSphere sphereToBeRemoved = bestMove.getSphere();
@@ -91,7 +91,7 @@ public class StudentPlayer extends PylosPlayer {
 
 
 	// Minimax recursive function
-	private Action minimax(PylosGameState state, PylosPlayerColor color, PylosBoard board, int depth, Action last, int alfa, int beta) {
+	private Action1 minimax(PylosGameState state, PylosPlayerColor color, PylosBoard board, int depth, Action1 last, int alfa, int beta) {
 
 		PylosGameSimulator pylosGameSimulator = new PylosGameSimulator(state, color, board);
 
@@ -108,78 +108,62 @@ public class StudentPlayer extends PylosPlayer {
 		if (color == this.PLAYER_COLOR) {
 			int bestValue = Integer.MIN_VALUE;
 
-			Action currentMaxAction = null;
-
-			for (Action a : last.getChildren()) {
+			Action1 currentMaxAction = null;
+			for (Action1 a : last.getChildren()) {
 
 				doSimulation(pylosGameSimulator, a);
 
-				Action bestNext = minimax(pylosGameSimulator.getState(), pylosGameSimulator.getColor(), board, depth-1, a, alfa, beta);
+				Action1 bestNext = minimax(pylosGameSimulator.getState(), pylosGameSimulator.getColor(), board, depth-1, a, alfa, beta);
 				if (bestNext.getScore() > beta ) { // beta cutoff
 					undoSimulation(pylosGameSimulator, a);
-//					if (currentMaxAction != null)
-//						return currentMaxAction;
-//					else
 					return a;
 				}
 				alfa = Math.max(alfa, bestNext.getScore());
 				if (beta <= alfa){
 					undoSimulation(pylosGameSimulator, a);
-//					if (currentMaxAction != null)
-//						return currentMaxAction;
-//					else
 					return a;
 				}
 				if (bestValue < bestNext.getScore()) {
 					bestValue = bestNext.getScore();
 					currentMaxAction = a;
+					currentMaxAction.setScore(bestValue);
 				}
-
 				undoSimulation(pylosGameSimulator, a);
 			}
-
 			return currentMaxAction;
 		}
 
 		// minimize if color is color of other player
 		else {
 			int bestValue = Integer.MAX_VALUE;
-			Action currentMinAction = null;
-
-			for (Action a : last.getChildren()) {
+			Action1 currentMinAction = null;
+			for (Action1 a : last.getChildren()) {
 
 				doSimulation(pylosGameSimulator, a);
 
-				Action bestNext = minimax(pylosGameSimulator.getState(), pylosGameSimulator.getColor(), board, depth-1, a, alfa, beta);
+				Action1 bestNext = minimax(pylosGameSimulator.getState(), pylosGameSimulator.getColor(), board, depth-1, a, alfa, beta);
 				if (bestNext.getScore() < alfa ) { //alfa cutoff
 					undoSimulation(pylosGameSimulator, a);
-//					if (currentMinAction != null)
-//						return currentMinAction;
-//					else
 					return a;
 				}
 				beta = Math.min(beta, bestNext.getScore());
 				if (beta <= alfa){
 					undoSimulation(pylosGameSimulator, a);
-//					if (currentMaxAction != null)
-//						return currentMaxAction;
-//					else
 					return a;
 				}
 				if (bestValue > bestNext.getScore()) {
 					bestValue = bestNext.getScore();
 					currentMinAction = a;
+					currentMinAction.setScore(bestValue);
 				}
-
 				undoSimulation(pylosGameSimulator, a);
 			}
-
 			return currentMinAction;
 		}
 	}
 
 	// Generate all the possible children actions of last action
-	private void giveLastActionChildren(PylosGameState state, PylosPlayerColor color, PylosBoard board, Action action) {
+	private void giveLastActionChildren(PylosGameState state, PylosPlayerColor color, PylosBoard board, Action1 action) {
 		action.setChildren(new ArrayList<>());
 		switch (state) {
 			case MOVE:
@@ -191,7 +175,7 @@ public class StudentPlayer extends PylosPlayer {
 					for (PylosSphere sphere : board.getSpheres(color)) {
 						if (!sphere.isReserve() && sphere.canMoveTo(to)) {
 							PylosLocation from = sphere.getLocation();
-							Action child = new Action(sphere, ActionType.MOVE, color, from, to);
+							Action1 child = new Action1(sphere, ActionType3.MOVE, color, from, to);
 							action.addChild(child);
 						}
 					}
@@ -204,7 +188,7 @@ public class StudentPlayer extends PylosPlayer {
 				PylosSphere sphereToMove = board.getReserve(color);
 				for (PylosLocation to : allUsableLocations) {
 					PylosLocation from = sphereToMove.getLocation();
-					Action child = new Action(sphereToMove, ActionType.ADD, color, from, to);
+					Action1 child = new Action1(sphereToMove, ActionType3.ADD, color, from, to);
 					action.addChild(child);
 				}
 
@@ -215,7 +199,7 @@ public class StudentPlayer extends PylosPlayer {
 				// possible spheres of playercolor that can move to reserve
 				ArrayList<PylosSphere> allThatCanBeRemoved = getCanBeRemoved(board, color);
 				for (PylosSphere sphere : allThatCanBeRemoved) {
-					Action child = new Action(sphere, ActionType.REMOVE_FIRST, color, sphere.getLocation(), null);
+					Action1 child = new Action1(sphere, ActionType3.REMOVE_FIRST, color, sphere.getLocation(), null);
 					action.addChild(child);
 				}
 
@@ -224,12 +208,12 @@ public class StudentPlayer extends PylosPlayer {
 			case REMOVE_SECOND:
 
 				// action pass
-				action.addChild(new Action(null, ActionType.PASS, color, null, null));
+				action.addChild(new Action1(null, ActionType3.PASS, color, null, null));
 
 				// possible spheres of playercolor that can move to reserve
 				allThatCanBeRemoved = getCanBeRemoved(board, color);
 				for (PylosSphere sphere : allThatCanBeRemoved) {
-					Action child = new Action(sphere, ActionType.REMOVE_SECOND, color, sphere.getLocation(), null);
+					Action1 child = new Action1(sphere, ActionType3.REMOVE_SECOND, color, sphere.getLocation(), null);
 					action.addChild(child);
 				}
 
@@ -237,7 +221,7 @@ public class StudentPlayer extends PylosPlayer {
 	}
 
 
-	private void doSimulation(PylosGameSimulator pylosGameSimulator, Action a) {
+	private void doSimulation(PylosGameSimulator pylosGameSimulator, Action1 a) {
 
 		switch (a.getActionType()) {
 
@@ -256,7 +240,7 @@ public class StudentPlayer extends PylosPlayer {
 		}
 	}
 
-	private void undoSimulation(PylosGameSimulator pylosGameSimulator, Action a) {
+	private void undoSimulation(PylosGameSimulator pylosGameSimulator, Action1 a) {
 
 		switch (a.getActionType()) {
 
@@ -346,4 +330,99 @@ public class StudentPlayer extends PylosPlayer {
 
 		return canBeRemoved;
 	}
+}
+
+class Action1 {
+	private PylosSphere sphere;
+	private ActionType3 actionType1;
+	private PylosPlayerColor color;
+	private PylosLocation from, to;
+	private int score;
+	private boolean hasScore;
+	private ArrayList<Action1> children;
+
+	public Action1(PylosSphere s, ActionType3 a, PylosPlayerColor c, PylosLocation f, PylosLocation t){
+		sphere = s;
+		actionType1 = a;
+		color = c;
+		from = f;
+		to = t;
+		score = 0;
+		hasScore = false;
+		children = new ArrayList<>();
+	}
+
+	public Action1() {
+		children = new ArrayList<>();
+	}
+
+	public PylosSphere getSphere() {
+		return sphere;
+	}
+
+	public void setSphere(PylosSphere sphere) {
+		this.sphere = sphere;
+	}
+
+	public ActionType3 getActionType() { return actionType1; }
+
+	public void setActionType(ActionType3 actionType1) { this.actionType1 = actionType1; }
+
+	public PylosPlayerColor getColor() {
+		return color;
+	}
+
+	public void setColor(PylosPlayerColor color) {
+		this.color = color;
+	}
+
+	public PylosLocation getFrom() {
+		return from;
+	}
+
+	public void setFrom(PylosLocation from) {
+		this.from = from;
+	}
+
+	public PylosLocation getTo() {
+		return to;
+	}
+
+	public void setTo(PylosLocation to) {
+		this.to = to;
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+		hasScore = true;
+	}
+
+	public boolean isHasScore() {
+		return hasScore;
+	}
+
+	public void setHasScore(boolean hasScore) {
+		this.hasScore = hasScore;
+	}
+
+	public ArrayList<Action1> getChildren() { return children; }
+
+	public void addChild(Action1 action) {
+		children.add(action);
+	}
+
+	public void setChildren(ArrayList<Action1> children) {
+		this.children = children;
+	}
+}
+enum ActionType1 {
+	MOVE,
+	ADD,
+	REMOVE_FIRST,
+	REMOVE_SECOND,
+	PASS
 }

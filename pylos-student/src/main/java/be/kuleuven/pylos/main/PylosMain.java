@@ -103,7 +103,7 @@ public class PylosMain {
 			fw.close();
 		}
 		else{
-			PylosPlayer playerLight = new StudentPlayer3(2);
+			PylosPlayer playerLight = new StudentPlayerBestFit();
 //			PylosPlayer playerLight = new StudentPlayerRandomFit();
 
 //			PylosPlayer playerDark = new StudentPlayer3(3);
@@ -175,6 +175,11 @@ ev
 	Lijst met alle mogelijke acties en deze steeds opvragen voor simulatie
 */
 /*
+Pylos:
+	https://github.com/Diab0lix/Pylos/blob/7f971d82e30c5f499d7ebc93911e71a6ec9abd7d/pylos.py#L268
+	https://github.com/stanislavfort/deepPylos/blob/48ab8b26d8abf81e700c031cd425f4d9475a141f/pylos-game.py#L533
+
+
 Waarom Alfa-beta
 	The minimax
 algorithm is effective but impractical in practice. In an
