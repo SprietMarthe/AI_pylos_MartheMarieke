@@ -77,11 +77,13 @@ public class StudentPlayerBestFit extends PylosPlayer {
                 Action bestNext = minimax(pylosGameSimulator.getState(), pylosGameSimulator.getColor(), board, depth-1, a, alfa, beta);
                 if (bestNext.getScore() > beta ) { // beta cutoff
                     undoSimulation(pylosGameSimulator, a);
+                    a.setScore(beta);
                     return a;
                 }
                 alfa = Math.max(alfa, bestNext.getScore());
                 if (beta <= alfa){
                     undoSimulation(pylosGameSimulator, a);
+                    a.setScore(bestNext.getScore());
                     return a;
                 }
                 if (bestValue < bestNext.getScore()) {
@@ -105,11 +107,13 @@ public class StudentPlayerBestFit extends PylosPlayer {
                 Action bestNext = minimax(pylosGameSimulator.getState(), pylosGameSimulator.getColor(), board, depth-1, a, alfa, beta);
                 if (bestNext.getScore() < alfa ) { //alfa cutoff
                     undoSimulation(pylosGameSimulator, a);
+                    a.setScore(alfa);
                     return a;
                 }
                 beta = Math.min(beta, bestNext.getScore());
                 if (beta <= alfa){
                     undoSimulation(pylosGameSimulator, a);
+                    a.setScore(bestNext.getScore());
                     return a;
                 }
                 if (bestValue > bestNext.getScore()) {
@@ -295,7 +299,6 @@ class Action {
     private PylosPlayerColor color;
     private PylosLocation from, to;
     private int score;
-    private boolean hasScore;
     private ArrayList<Action> children;
 
     public Action(PylosSphere s, ActionType a, PylosPlayerColor c, PylosLocation f, PylosLocation t){
@@ -305,7 +308,6 @@ class Action {
         from = f;
         to = t;
         score = 0;
-        hasScore = false;
         children = new ArrayList<>();
     }
 
@@ -341,7 +343,6 @@ class Action {
 
     public void setScore(int score) {
         this.score = score;
-        hasScore = true;
     }
 
     public ArrayList<Action> getChildren() { return children; }
