@@ -9,10 +9,7 @@ import be.kuleuven.pylos.player.PylosPlayerObserver;
 import be.kuleuven.pylos.player.codes.PylosPlayerBestFit;
 import be.kuleuven.pylos.player.codes.PylosPlayerMiniMax;
 import be.kuleuven.pylos.player.codes.PylosPlayerRandomFit;
-import be.kuleuven.pylos.player.student.StudentPlayer;
-import be.kuleuven.pylos.player.student.StudentPlayer3;
-import be.kuleuven.pylos.player.student.StudentPlayerBestFit;
-import be.kuleuven.pylos.player.student.StudentPlayerRandomFit;
+import be.kuleuven.pylos.player.student.*;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -103,7 +100,8 @@ public class PylosMain {
 			fw.close();
 		}
 		else{
-			PylosPlayer playerLight = new StudentPlayerBestFit();
+//			PylosPlayer playerLight = new StudentPlayerBestFit();
+			PylosPlayer playerLight = new StudentPlayerBestFitPrutsen();
 //			PylosPlayer playerLight = new StudentPlayerRandomFit();
 
 //			PylosPlayer playerDark = new StudentPlayer3(3);
