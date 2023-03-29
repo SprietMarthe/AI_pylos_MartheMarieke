@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class StudentPlayerBestFitPrutsen extends PylosPlayer {
 
-    int maxDepth = 7;
+    int maxDepth = 2;
     int factorOwnReserveSpheres = 2;
     int factorThreeOfOwnInSquare = 2;
     int factorFourOfOwnInSquare = 1;
