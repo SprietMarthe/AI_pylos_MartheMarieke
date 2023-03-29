@@ -137,7 +137,7 @@ public class StudentPlayerBestFitPrutsen extends PylosPlayer {
                     for (PylosSphere sphere : board.getSpheres(color)) {
                         if (!sphere.isReserve() && sphere.canMoveTo(to)) {
                             PylosLocation from = sphere.getLocation();
-                            Action child = new Action(sphere, ActionTypePrutsen.MOVE, color, from, to);
+                            Action child = new Action(sphere, ActionType.MOVE, color, from, to);
                             action.addChild(child);
                         }
                     }
@@ -150,7 +150,7 @@ public class StudentPlayerBestFitPrutsen extends PylosPlayer {
                 PylosSphere sphereToMove = board.getReserve(color);
                 for (PylosLocation to : allUsableLocations) {
                     PylosLocation from = sphereToMove.getLocation();
-                    Action child = new Action(sphereToMove, ActionTypePrutsen.ADD, color, from, to);
+                    Action child = new Action(sphereToMove, ActionType.ADD, color, from, to);
                     action.addChild(child);
                 }
                 break;
@@ -160,7 +160,7 @@ public class StudentPlayerBestFitPrutsen extends PylosPlayer {
                 // possible spheres of playercolor that can move to reserve
                 ArrayList<PylosSphere> allThatCanBeRemoved = getCanBeRemoved(board, color);
                 for (PylosSphere sphere : allThatCanBeRemoved) {
-                    Action child = new Action(sphere, ActionTypePrutsen.REMOVE_FIRST, color, sphere.getLocation(), null);
+                    Action child = new Action(sphere, ActionType.REMOVE_FIRST, color, sphere.getLocation(), null);
                     action.addChild(child);
                 }
                 break;
@@ -168,12 +168,12 @@ public class StudentPlayerBestFitPrutsen extends PylosPlayer {
             case REMOVE_SECOND:
 
                 // action pass
-                action.addChild(new Action(null, ActionTypePrutsen.PASS, color, null, null));
+                action.addChild(new Action(null, ActionType.PASS, color, null, null));
 
                 // possible spheres of playercolor that can move to reserve
                 allThatCanBeRemoved = getCanBeRemoved(board, color);
                 for (PylosSphere sphere : allThatCanBeRemoved) {
-                    Action child = new Action(sphere, ActionTypePrutsen.REMOVE_SECOND, color, sphere.getLocation(), null);
+                    Action child = new Action(sphere, ActionType.REMOVE_SECOND, color, sphere.getLocation(), null);
                     action.addChild(child);
                 }
         }
@@ -290,73 +290,3 @@ public class StudentPlayerBestFitPrutsen extends PylosPlayer {
     }
 }
 
-class ActionPrutsen {
-    private PylosSphere sphere;
-    private ActionTypePrutsen actionTypePrutsen;
-    private PylosPlayerColor color;
-    private PylosLocation from, to;
-    private int score;
-    private ArrayList<Action> children;
-
-    public ActionPrutsen(PylosSphere s, ActionTypePrutsen a, PylosPlayerColor c, PylosLocation f, PylosLocation t){
-        sphere = s;
-        actionTypePrutsen = a;
-        color = c;
-        from = f;
-        to = t;
-        score = 0;
-        children = new ArrayList<>();
-    }
-
-    public ActionPrutsen() {
-        children = new ArrayList<>();
-    }
-
-    public PylosSphere getSphere() {
-        return sphere;
-    }
-
-    public ActionTypePrutsen getActionType() { return actionTypePrutsen; }
-
-    public PylosPlayerColor getColor() {
-        return color;
-    }
-
-    public void setColor(PylosPlayerColor color) {
-        this.color = color;
-    }
-
-    public PylosLocation getFrom() {
-        return from;
-    }
-
-    public PylosLocation getTo() {
-        return to;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    public ArrayList<Action> getChildren() { return children; }
-
-    public void addChild(Action action) {
-        children.add(action);
-    }
-
-    public void setChildren(ArrayList<Action> children) {
-        this.children = children;
-    }
-}
-
-enum ActionTypePrutsen {
-    MOVE,
-    ADD,
-    REMOVE_FIRST,
-    REMOVE_SECOND,
-    PASS
-}
