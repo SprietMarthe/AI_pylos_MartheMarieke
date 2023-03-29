@@ -17,19 +17,19 @@ public class PlayerFactoryStudent extends PylosPlayerFactory {
 	protected void createTypes() {
 
 		/* example */
-		add(new PylosPlayerType("Student") {
-			@Override
-			public PylosPlayer create() {
-				return new StudentPlayer();
-			}
-		});
-
-		add(new PylosPlayerType("Student - 2") {
-			@Override
-			public PylosPlayer create() {
-				return new StudentPlayer2();
-			}
-		});
+//		add(new PylosPlayerType("Student") {
+//			@Override
+//			public PylosPlayer create() {
+//				return new StudentPlayer();
+//			}
+//		});
+//
+//		add(new PylosPlayerType("Student - 2") {
+//			@Override
+//			public PylosPlayer create() {
+//				return new StudentPlayer2();
+//			}
+//		});
 
 		add(new PylosPlayerType("Student - 3") {
 			@Override

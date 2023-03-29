@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class StudentPlayerBestFitPrutsen extends PylosPlayer {
 
-    int maxDepth = 9;
+    int maxDepth = 7;
     int factorOwnReserveSpheres = 2;
     int factorThreeOfOwnInSquare = 2;
     int factorFourOfOwnInSquare = 1;
@@ -58,7 +58,7 @@ public class StudentPlayerBestFitPrutsen extends PylosPlayer {
 
         // stop condition
         if (depth == 0 || state == PylosGameState.COMPLETED) {
-            last.setScore(evaluateBoard(board, color.other()));
+            last.setScore(evaluateBoard(board));
             return last;
         }
 
@@ -226,30 +226,30 @@ public class StudentPlayerBestFitPrutsen extends PylosPlayer {
 
 
     // Evaluation function
-    private int evaluateBoard(PylosBoard board, PylosPlayerColor color) {
+    private int evaluateBoard(PylosBoard board) {
 
         // own reserve spheres
-        int score = board.getReservesSize(color) * factorOwnReserveSpheres;
+        int score = board.getReservesSize(this.PLAYER_COLOR) * factorOwnReserveSpheres;
 
         // other reserve spheres
-        score -= board.getReservesSize(color.other()) * factorOwnReserveSpheres * factorOwnAndOther;
+        score -= board.getReservesSize(this.PLAYER_COLOR.other()) * factorOwnReserveSpheres * factorOwnAndOther;
 
         // squares
         PylosSquare[] allSquares = board.getAllSquares();
         for (PylosSquare square : allSquares) {
-            if (square.getInSquare(color) == 4) score += factorFourOfOwnInSquare;
-            else if (square.getInSquare(color.other()) == 3 && square.getInSquare(color) == 1) score += factorFourOfOwnInSquare*factorOwnAndOther;
+            if (square.getInSquare(this.PLAYER_COLOR) == 4) score += factorFourOfOwnInSquare;
+            else if (square.getInSquare(this.PLAYER_COLOR.other()) == 3 && square.getInSquare(this.PLAYER_COLOR) == 1) score += factorFourOfOwnInSquare*factorOwnAndOther;
             else if (square.getInSquare() == 4) score -= factorCompleteSquare;
-            else if (square.getInSquare(color) == 3 && square.getInSquare(color.other()) == 0) score += factorThreeOfOwnInSquare;
-            else if (square.getInSquare(color.other()) == 3 && square.getInSquare(color) == 0) score -= factorThreeOfOwnInSquare*factorOwnAndOther;
+            else if (square.getInSquare(this.PLAYER_COLOR) == 3 && square.getInSquare(this.PLAYER_COLOR.other()) == 0) score += factorThreeOfOwnInSquare;
+            else if (square.getInSquare(this.PLAYER_COLOR.other()) == 3 && square.getInSquare(this.PLAYER_COLOR) == 0) score -= factorThreeOfOwnInSquare*factorOwnAndOther;
         }
 
         // top location is from color
         PylosLocation[] locations = board.getLocations();
         int size = locations.length;
         if (locations[size-1].getSphere() != null) {
-            if (locations[size-1].getSphere().PLAYER_COLOR == color) score += factorTopIsOwnSphere;
-            else if (locations[size-1].getSphere().PLAYER_COLOR == color.other()) score -= factorTopIsOwnSphere*factorOwnAndOther;
+            if (locations[size-1].getSphere().PLAYER_COLOR == this.PLAYER_COLOR) score += factorTopIsOwnSphere;
+            else if (locations[size-1].getSphere().PLAYER_COLOR == this.PLAYER_COLOR.other()) score -= factorTopIsOwnSphere*factorOwnAndOther;
         }
 
         return score;

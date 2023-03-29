@@ -44,7 +44,7 @@ public class PylosMain {
 		}
 	}
 
-	public void startSingleGame() {
+	/*public void startSingleGame() {
 
 		Random random = new Random(0);
 
@@ -55,7 +55,7 @@ public class PylosMain {
 		PylosGame pylosGame = new PylosGame(pylosBoard, randomPlayerCodes, randomPlayerStudent, random, PylosGameObserver.CONSOLE_GAME_OBSERVER, PylosPlayerObserver.NONE);
 
 		pylosGame.play();
-	}
+	}*/
 
 	public void startBattle(boolean normal) throws IOException {
 		double startTime = System.currentTimeMillis();
@@ -72,24 +72,24 @@ public class PylosMain {
 						for (int m = 1; m < 4; m++) {
 							for (int n = 1; n < 4; n++) {
 								for (int o = 1; o < 3; o++) {
-									PylosPlayer playerLight = new StudentPlayer(diepteStudent, k, l, m, n, o, j);
-									PylosPlayer playerDark = new PylosPlayerMiniMax(diepteCodes);
-									double[] wins = Battle.play(playerLight, playerDark, 100);
-
-									if (bestWin < wins[0]) {
-										bestWin = wins[0];
-
-										String values = wins[0] + " " + wins[1] + " " + wins[2];
-										stringBestWin = diepteStudent + " " + diepteCodes
-												+ " " + k
-												+ " " + l
-												+ " " + m
-												+ " " + n
-												+ " " + o
-												+ " " + (double) j
-												+ " " + values
-												+ " " + "\n";
-									}
+//									PylosPlayer playerLight = new StudentPlayer(diepteStudent, k, l, m, n, o, j);
+//									PylosPlayer playerDark = new PylosPlayerMiniMax(diepteCodes);
+//									double[] wins = Battle.play(playerLight, playerDark, 100);
+//
+//									if (bestWin < wins[0]) {
+//										bestWin = wins[0];
+//
+//										String values = wins[0] + " " + wins[1] + " " + wins[2];
+//										stringBestWin = diepteStudent + " " + diepteCodes
+//												+ " " + k
+//												+ " " + l
+//												+ " " + m
+//												+ " " + n
+//												+ " " + o
+//												+ " " + (double) j
+//												+ " " + values
+//												+ " " + "\n";
+//									}
 								}
 							}
 						}
@@ -105,7 +105,7 @@ public class PylosMain {
 //			PylosPlayer playerLight = new StudentPlayerRandomFit();
 
 //			PylosPlayer playerDark = new StudentPlayer3(3);
-			PylosPlayer playerDark = new PylosPlayerMiniMax(2);
+			PylosPlayer playerDark = new PylosPlayerMiniMax(5);
 //			PylosPlayer playerDark = new PylosPlayerRandomFit();
 //			PylosPlayer playerDark = new PylosPlayerMiniMax(3);
 //			PylosPlayer playerDark = new PylosPlayerBestFit();
