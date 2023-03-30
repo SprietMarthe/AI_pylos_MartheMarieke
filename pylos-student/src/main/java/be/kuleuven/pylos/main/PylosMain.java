@@ -1,20 +1,13 @@
 package be.kuleuven.pylos.main;
 
 import be.kuleuven.pylos.battle.Battle;
-import be.kuleuven.pylos.game.PylosBoard;
-import be.kuleuven.pylos.game.PylosGame;
-import be.kuleuven.pylos.game.PylosGameObserver;
 import be.kuleuven.pylos.player.PylosPlayer;
-import be.kuleuven.pylos.player.PylosPlayerObserver;
 import be.kuleuven.pylos.player.codes.PylosPlayerBestFit;
 import be.kuleuven.pylos.player.codes.PylosPlayerMiniMax;
-import be.kuleuven.pylos.player.codes.PylosPlayerRandomFit;
 import be.kuleuven.pylos.player.student.*;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.SQLOutput;
-import java.time.LocalDateTime;
 import java.util.Random;
 
 /**
@@ -101,7 +94,7 @@ public class PylosMain {
 		}
 		else{
 //			PylosPlayer playerLight = new StudentPlayerBestFit();
-			PylosPlayer playerLight = new StudentPlayerBestFitPrutsen();
+			PylosPlayer playerLight = new StudentPlayerBestFitFixed();
 //			PylosPlayer playerLight = new StudentPlayerRandomFit();
 
 //			PylosPlayer playerDark = new StudentPlayer3(3);

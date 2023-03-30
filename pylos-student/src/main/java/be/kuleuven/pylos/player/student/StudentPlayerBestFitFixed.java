@@ -5,7 +5,7 @@ import be.kuleuven.pylos.player.PylosPlayer;
 
 import java.util.ArrayList;
 
-public class StudentPlayerBestFitPrutsen extends PylosPlayer {
+public class StudentPlayerBestFitFixed extends PylosPlayer {
 
     int maxDepth = 2;
     int factorOwnReserveSpheres = 2;
