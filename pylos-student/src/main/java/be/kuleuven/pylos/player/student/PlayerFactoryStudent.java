@@ -51,13 +51,5 @@ public class PlayerFactoryStudent extends PylosPlayerFactory {
 				return new StudentPlayerBestFit();
 			}
 		});
-
-		add(new PylosPlayerType("Student - Best Fit Prutsen") {
-			@Override
-			public PylosPlayer create() {
-				return new StudentPlayerBestFitFixed();
-			}
-		});
-
 	}
 }

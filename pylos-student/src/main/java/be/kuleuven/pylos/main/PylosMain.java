@@ -93,15 +93,14 @@ public class PylosMain {
 			fw.close();
 		}
 		else{
-//			PylosPlayer playerLight = new StudentPlayerBestFit();
-			PylosPlayer playerLight = new StudentPlayerBestFitFixed();
+			PylosPlayer playerLight = new StudentPlayerBestFit();
+//			PylosPlayer playerLight = new StudentPlayerBestFitFixed();
 //			PylosPlayer playerLight = new StudentPlayerRandomFit();
 
 //			PylosPlayer playerDark = new StudentPlayer3(3);
-//			PylosPlayer playerDark = new PylosPlayerMiniMax(5);
 //			PylosPlayer playerDark = new PylosPlayerRandomFit();
-//			PylosPlayer playerDark = new PylosPlayerMiniMax(3);
-			PylosPlayer playerDark = new PylosPlayerBestFit();
+			PylosPlayer playerDark = new PylosPlayerMiniMax(4);
+//			PylosPlayer playerDark = new PylosPlayerBestFit();
 
 			Battle.play(playerLight, playerDark, 100);
 		}
